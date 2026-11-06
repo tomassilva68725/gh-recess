@@ -1,0 +1,18 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cli/gh-extension-precompile@v2
+        with:
+          # Attestations aren't available for private repos on personal accounts.
+          generate_attestations: false
+          go_version_file: go.mod
