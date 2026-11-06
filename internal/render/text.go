@@ -65,6 +65,46 @@ func Date(t time.Time) string {
 	return t.Format("Jan 2")
 }
 
+// Age writes a length of time the way people say it: "12 minutes",
+// "3 hours", "4 days", "5 months", "2 years".
+func Age(d time.Duration) string {
+	switch {
+	case d < time.Hour:
+		return Plural(max(int(d.Minutes()), 1), "minute")
+	case d < 24*time.Hour:
+		return Plural(int(d.Hours()), "hour")
+	case d < 60*24*time.Hour:
+		return Plural(int(d.Hours()/24), "day")
+	case d < 730*24*time.Hour:
+		return Plural(int(d.Hours()/24/30), "month")
+	default:
+		return Plural(int(d.Hours()/24/365), "year")
+	}
+}
+
+// Bytes writes a file size: "512 B", "11.6 KB", "3.2 MB".
+func Bytes(n int64) string {
+	const unit = 1024
+	if n < unit {
+		return strconv.FormatInt(n, 10) + " B"
+	}
+	f, i := float64(n), 0
+	for f >= unit && i < 4 {
+		f /= unit
+		i++
+	}
+	return strconv.FormatFloat(f, 'f', 1, 64) + " " + string("BKMGT"[i]) + "B"
+}
+
+// Center pads s on both sides to w columns.
+func Center(s string, w int) string {
+	d := w - Width(s)
+	if d <= 0 {
+		return s
+	}
+	return strings.Repeat(" ", d/2) + s + strings.Repeat(" ", d-d/2)
+}
+
 // Rule is a horizontal line of w heavy dashes.
 func Rule(w int) string {
 	return strings.Repeat("━", max(w, 0))

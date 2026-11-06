@@ -1,6 +1,8 @@
 package render
 
 import (
+	"slices"
+	"strings"
 	"testing"
 	"unicode/utf8"
 )
@@ -31,6 +33,14 @@ func TestBigKnowsTheLogos(t *testing.T) {
 	}
 	if got := utf8.RuneCountInString(Big("whodunit")[0]); got != 66 {
 		t.Errorf("WHODUNIT is %d wide, the game layout expects 66", got)
+	}
+}
+
+func TestTidyCode(t *testing.T) {
+	got := TidyCode([]string{"\t\tfoo();", "", "  ", "\t\t\tbar();   ", "\t\t" + strings.Repeat("x", 100)})
+	want := []string{"foo();", "", "    bar();", strings.Repeat("x", CodeWidth-1) + "…"}
+	if !slices.Equal(got, want) {
+		t.Errorf("TidyCode = %q, want %q", got, want)
 	}
 }
 

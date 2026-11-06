@@ -36,7 +36,7 @@ gh recess whodunit 5 --players tomas,andre,joao
 | Game | What it is | |
 |---|---|---|
 | `whodunit` | Guess who wrote a piece of code, a commit message, or (hardcore) a commit from clues only | ✅ |
-| `graveyard` | Tombstones for deleted code: who wrote it, who killed it, how long it lived | soon |
+| `graveyard` | Tombstones for deleted code: who wrote it, who killed it, how long it lived | ✅ |
 | `aquarium` | Your team as fish swimming in the terminal, growing with every commit | soon |
 | `mascot` | A tamagotchi that lives on commits and gets sick from stale PRs | soon |
 
@@ -55,6 +55,37 @@ Each case shows one piece of evidence and up to four suspects. Type the number
 Options: `[rounds]` or `--rounds N` (default 10), `--players a,b,c`, `--solo`.
 Global flags: `--no-anim`, `--version`.
 
+### graveyard
+
+Every file ever deleted gets a tombstone, drawn in ASCII on a strip of lawn.
+
+```
+     ╭──────────╮
+  ╭──╯  R.I.P   ╰──╮
+  │                │
+  │  FryingPan.h   │
+  │ Oct 31 – Nov 4 │
+  │     4 days     │
+  │                │
+  │    † André     │
+  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+```
+
+| Command | What it shows |
+|---|---|
+| `graveyard` | the gate: how many files rest here, the newest tombstones, the hall of records and the killers |
+| `graveyard visit <name>` | one grave up close: born, died, lived, size, last words, its last lines of code and the `git checkout` that brings it back |
+| `graveyard list [text]` | every grave, or the ones whose path contains text |
+| `graveyard killers` | who deleted the most files and lines |
+
+- **Mass graves**: a commit that deletes many files at once shares one tombstone.
+- **Hall of records**: longest and shortest life, heaviest coffin, biggest
+  massacre, and the **zombie** (the file that died the most times).
+- Renamed files aren't dead, they just moved. Assets such as `.uasset`, `.png`
+  or `.fbx` count as binary, including those stored in Git LFS.
+
+`gh recess graveyard <name>` works as a shortcut for `visit`.
+
 To merge one person's several emails into one suspect, add a
 [`.mailmap`](https://git-scm.com/docs/gitmailmap).
 
@@ -64,9 +95,10 @@ On Windows, use Windows Terminal for the colors and block characters.
 
 ```
 main.go             entry point: calls cli.Run
-internal/gitlog/    runs git log / git show and parses the output
+internal/gitlog/    runs git log / git show and parses the output (commits, file lifecycles)
 internal/render/    colors, the big block font, bars, spinners
 internal/whodunit/  questions (deck), snippets, scoring, the game loop
+internal/graveyard/ lives and deaths of files, records, tombstones
 internal/cli/       banner, game menu, prompt, command-line options
 ```
 

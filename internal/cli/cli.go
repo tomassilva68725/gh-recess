@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/tomassilva68725/gh-recess/internal/gitlog"
+	"github.com/tomassilva68725/gh-recess/internal/graveyard"
 	"github.com/tomassilva68725/gh-recess/internal/render"
 	"github.com/tomassilva68725/gh-recess/internal/whodunit"
 )
@@ -34,6 +35,7 @@ type App struct {
 	repo    string
 	branch  string
 	commits []gitlog.Commit
+	yard    *graveyard.Yard // loaded the first time graveyard runs
 
 	in      *bufio.Scanner // one scanner for everything, or typed lines get lost
 	out     io.Writer
@@ -54,7 +56,8 @@ func Run(args []string) int {
 		fmt.Fprintf(flags.Output(), "Usage: gh recess [flags] [game [options]]\n\n"+
 			"Without a game, shows the menu (type 'help' there).\n\n"+
 			"Games:\n"+
-			"  whodunit [rounds] [--rounds N] [--players a,b,c] [--solo]\n\n"+
+			"  whodunit [rounds] [--rounds N] [--players a,b,c] [--solo]\n"+
+			"  graveyard [visit <name> | list [text] | killers]\n\n"+
 			"Flags:\n")
 		flags.PrintDefaults()
 	}

@@ -168,14 +168,6 @@ func TestPickSnippet(t *testing.T) {
 	}
 }
 
-func TestTidy(t *testing.T) {
-	got := Tidy([]string{"\t\tfoo();", "", "  ", "\t\t\tbar();   ", "\t\t" + strings.Repeat("x", 100)})
-	want := []string{"foo();", "", "    bar();", strings.Repeat("x", maxWidth-1) + "…"}
-	if !slices.Equal(got, want) {
-		t.Errorf("Tidy = %q, want %q", got, want)
-	}
-}
-
 func TestIsCodeFile(t *testing.T) {
 	yes := []gitlog.FileChange{
 		{Path: "Source/CookFellas/Kitchen/Pan.cpp", Added: 10},

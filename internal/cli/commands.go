@@ -22,7 +22,7 @@ type game struct {
 
 var games = []game{
 	{name: "whodunit", desc: "guess who wrote the code", run: (*App).whodunit},
-	{name: "graveyard", desc: "visit the code that died", later: "🪦 The graveyard is still being dug."},
+	{name: "graveyard", desc: "visit the code that died", run: (*App).graveyard},
 	{name: "aquarium", desc: "your team swimming in real time", later: "🐟 The aquarium is still being filled."},
 	{name: "mascot", desc: "your repo's tamagotchi", later: "🥚 The mascot hasn't hatched yet."},
 }
@@ -48,6 +48,10 @@ func (a *App) help() {
 		{"1 / whodunit [rounds]", "play whodunit (10 rounds unless you say otherwise)"},
 		{"  --players a,b,c", "party mode: everyone guesses the same case"},
 		{"  --solo", "skip the 'who's playing?' question"},
+		{"2 / graveyard", "tombstones for every deleted file"},
+		{"  visit <name>", "one grave up close, its last lines and how to bring it back"},
+		{"  list [text]", "every grave (or the ones whose path has text)"},
+		{"  killers", "who deleted the most"},
 		{"menu", "clear the screen and show the games again"},
 		{"help", "this list"},
 		{"quit", "leave (or Ctrl+D / Ctrl+Z)"},

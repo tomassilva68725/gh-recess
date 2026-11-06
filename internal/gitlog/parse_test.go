@@ -66,6 +66,33 @@ index 111..222 100644
 	}
 }
 
+func TestParseLifecycle(t *testing.T) {
+	out := "\x1eh1\x1fJoão\x1f1730000000\x1fadd pan\n\nA\tsrc/Pan.h\nM\tREADME.md\n" +
+		"\x1eh2\x1fAndré\x1f1730000100\x1fmove and kill\n\nR087\tsrc/Pan.h\tKitchen/Pan.h\nD\tOld.cpp\n"
+	events, err := ParseLifecycle(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(events) != 2 {
+		t.Fatalf("%d events", len(events))
+	}
+	want := []Change{{Status: 'R', From: "src/Pan.h", Path: "Kitchen/Pan.h"}, {Status: 'D', Path: "Old.cpp"}}
+	if !reflect.DeepEqual(events[1].Changes, want) {
+		t.Errorf("changes = %+v", events[1].Changes)
+	}
+	if len(events[0].Changes) != 1 || events[0].Author != "João" {
+		t.Errorf("first event = %+v", events[0])
+	}
+}
+
+func TestParseDeletedLines(t *testing.T) {
+	got := ParseDeletedLines("\x1eh1\n\n0\t212\tOld.cpp\n-\t-\tPan.uasset\n\x1eh2\n")
+	want := map[string]Deletion{"h1:Old.cpp": {Lines: 212}, "h1:Pan.uasset": {Binary: true}}
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %+v", got)
+	}
+}
+
 func TestParseRemote(t *testing.T) {
 	cases := map[string]string{
 		"https://github.com/tomassilva68725/CookFellas.git": "tomassilva68725/CookFellas",

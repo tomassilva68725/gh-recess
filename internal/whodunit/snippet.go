@@ -5,6 +5,8 @@ import (
 	"strings"
 	"unicode"
 	"unicode/utf8"
+
+	"github.com/tomassilva68725/gh-recess/internal/render"
 )
 
 const (
@@ -12,7 +14,6 @@ const (
 	maxLines      = 8   // longer ones flood the screen
 	minMeaningful = 3   // lines with real words, not just "}" or ""
 	maxLineLen    = 200 // longer lines are minified or generated
-	maxWidth      = 76  // lines are cut to this width on screen
 )
 
 // PickSnippet chooses a few lines from the added hunks of a file, or nil when
@@ -35,44 +36,7 @@ func PickSnippet(hunks [][]string, rng *rand.Rand) []string {
 	if len(windows) == 0 {
 		return nil
 	}
-	return Tidy(windows[rng.IntN(len(windows))])
-}
-
-// Tidy makes a snippet look good on screen: tabs become 4 spaces, the shared
-// indentation goes away, and long lines are cut. It returns a new slice.
-func Tidy(lines []string) []string {
-	out := make([]string, len(lines))
-	indent := -1
-	for i, l := range lines {
-		l = strings.TrimRight(strings.ReplaceAll(l, "\t", "    "), " \r")
-		out[i] = l
-		if strings.TrimSpace(l) == "" {
-			continue
-		}
-		n := len(l) - len(strings.TrimLeft(l, " "))
-		if indent < 0 || n < indent {
-			indent = n
-		}
-	}
-	tidy := out[:0]
-	for _, l := range out {
-		if len(l) >= indent && indent > 0 {
-			l = l[indent:]
-		}
-		if l == "" && len(tidy) > 0 && tidy[len(tidy)-1] == "" {
-			continue // one empty line is enough
-		}
-		tidy = append(tidy, cut(l, maxWidth))
-	}
-	return tidy
-}
-
-func cut(s string, w int) string {
-	if utf8.RuneCountInString(s) <= w {
-		return s
-	}
-	r := []rune(s)
-	return string(r[:w-1]) + "…"
+	return render.TidyCode(windows[rng.IntN(len(windows))])
 }
 
 // trimBlank drops empty lines at both ends.
