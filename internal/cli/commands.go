@@ -24,7 +24,7 @@ var games = []game{
 	{name: "whodunit", desc: "guess who wrote the code", run: (*App).whodunit},
 	{name: "graveyard", desc: "visit the code that died", run: (*App).graveyard},
 	{name: "aquarium", desc: "your team swimming in real time", run: (*App).aquarium},
-	{name: "mascot", desc: "your repo's tamagotchi", later: "🥚 The mascot hasn't hatched yet."},
+	{name: "mascot", desc: "your repo's tamagotchi", run: (*App).mascot},
 }
 
 // menu lists the games.
@@ -54,6 +54,8 @@ func (a *App) help() {
 		{"  killers", "who deleted the most"},
 		{"3 / aquarium", "your team as fish, live, full screen (q to leave)"},
 		{"  --fetch", "fetch every minute to see the team's pushes arrive"},
+		{"4 / mascot", "how the repo's tamagotchi is doing"},
+		{"  name <name>", "give it a name (kept in .git, never committed)"},
 		{"menu", "clear the screen and show the games again"},
 		{"help", "this list"},
 		{"quit", "leave (or Ctrl+D / Ctrl+Z)"},

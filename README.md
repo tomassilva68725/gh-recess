@@ -38,7 +38,7 @@ gh recess whodunit 5 --players tomas,andre,joao
 | `whodunit` | Guess who wrote a piece of code, a commit message, or (hardcore) a commit from clues only | ✅ |
 | `graveyard` | Tombstones for deleted code: who wrote it, who killed it, how long it lived | ✅ |
 | `aquarium` | Your team as fish swimming in the terminal, growing with every commit | ✅ |
-| `mascot` | A tamagotchi that lives on commits and gets sick from stale PRs | soon |
+| `mascot` | A tamagotchi that lives on commits and gets sick from stale branches | ✅ |
 
 ### whodunit
 
@@ -119,6 +119,38 @@ Your team as fish, live and full screen. Press `q` to come back up.
 Leaving prints the legend: who's who, how big, and who's asleep. When the
 output isn't a terminal, you get a still picture and the legend instead.
 
+### mascot
+
+Your repository's tamagotchi. It eats commits, bounces, blinks and tells you
+how it feels.
+
+```
+               ╭──────────────────────────────────────╮
+      o        │ WOW! 12 commits today!               │
+    .-|-.    ◀─│ tomas is my favourite human right    │
+   ( *o* )     │ now.                                 │
+   (     )     ╰──────────────────────────────────────╯
+    `"-"'
+
+  Byte · kid · 6 days old · 58 commits eaten · feeling excited
+  grows into a teen in 17 commits
+
+  food    ████████████████████ 100  commits fill it, 3 days without one empty it
+  joy     ████████████████████ 100  teammates who committed this week
+  health  ████████████████████ 100  stale branches make it sick
+  energy  ███████████████░░░░░  75  late-night commits wear it out
+```
+
+- **Grows up** with every commit, on every branch: egg → baby (5) → kid (25)
+  → teen (75, with a cap) → adult (200, with a crown).
+- **Moods**: hungry when nobody commits for days, sick when unmerged branches
+  go a week without commits, sleepy after commits between midnight and 5 am,
+  sad when only part of the team shows up, excited after a busy day.
+- **Turns into a ghost** after a week with no commits. Any commit brings it back.
+- **Caretakers**: who fed it the most this week.
+- `mascot name <name>` renames it. The name lives in `.git/gh-recess-mascot`,
+  so it's never committed and each clone can have its own.
+
 To merge one person's several emails into one suspect, add a
 [`.mailmap`](https://git-scm.com/docs/gitmailmap).
 
@@ -133,6 +165,7 @@ internal/render/    colors, the big block font, bars, spinners
 internal/whodunit/  questions (deck), snippets, scoring, the game loop
 internal/graveyard/ lives and deaths of files, records, tombstones
 internal/aquarium/  fish, bubbles and seaweed, the canvas, the live loop
+internal/mascot/    stats, moods and stages, the pet's art and screen
 internal/cli/       banner, game menu, prompt, command-line options
 ```
 

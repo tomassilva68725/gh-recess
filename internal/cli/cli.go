@@ -58,7 +58,8 @@ func Run(args []string) int {
 			"Games:\n"+
 			"  whodunit [rounds] [--rounds N] [--players a,b,c] [--solo]\n"+
 			"  graveyard [visit <name> | list [text] | killers]\n"+
-			"  aquarium [--fetch]\n\n"+
+			"  aquarium [--fetch]\n"+
+			"  mascot [name <name>]\n\n"+
 			"Flags:\n")
 		flags.PrintDefaults()
 	}

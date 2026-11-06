@@ -93,6 +93,24 @@ func TestParseDeletedLines(t *testing.T) {
 	}
 }
 
+func TestParseBranches(t *testing.T) {
+	out := "refs/heads/City\t1730000000\n" +
+		"refs/remotes/origin/City\t1730000500\n" +
+		"refs/remotes/origin/HEAD\t1730000000\n" +
+		"refs/remotes/origin/shared/core-types\t1730000100\n" +
+		"refs/heads/Rules\tnot-a-date\n"
+	got := ParseBranches(out)
+	if len(got) != 2 {
+		t.Fatalf("got %+v", got)
+	}
+	if got[0].Name != "City" || got[0].Last.Unix() != 1730000500 {
+		t.Errorf("City should keep its newest commit: %+v", got[0])
+	}
+	if got[1].Name != "shared/core-types" {
+		t.Errorf("branch names keep their slashes: %+v", got[1])
+	}
+}
+
 func TestParseRemote(t *testing.T) {
 	cases := map[string]string{
 		"https://github.com/tomassilva68725/CookFellas.git": "tomassilva68725/CookFellas",
