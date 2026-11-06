@@ -41,7 +41,7 @@ func NewShow(y *Yard, out io.Writer, animate bool) *Show {
 	for _, l := range y.Dead {
 		names = append(names, l.Creator, l.Killer)
 	}
-	return &Show{Out: out, Animate: animate, Yard: y, short: shortNames(names)}
+	return &Show{Out: out, Animate: animate, Yard: y, short: render.ShortNames(names)}
 }
 
 // name is a person's short display name: "André" for "André Narquel".
@@ -259,29 +259,4 @@ func FirstLines(content string, n int) []string {
 		return nil
 	}
 	return render.TidyCode(lines)
-}
-
-// shortNames maps each full name to its first word, when nobody else shares it.
-func shortNames(names []string) map[string]string {
-	first := func(n string) string {
-		if f := strings.Fields(n); len(f) > 0 {
-			return f[0]
-		}
-		return n
-	}
-	seen := map[string]bool{}
-	count := map[string]int{}
-	for _, n := range names {
-		if n != "" && !seen[n] {
-			seen[n] = true
-			count[strings.ToLower(first(n))]++
-		}
-	}
-	short := map[string]string{}
-	for n := range seen {
-		if count[strings.ToLower(first(n))] == 1 {
-			short[n] = first(n)
-		}
-	}
-	return short
 }

@@ -57,7 +57,8 @@ func Run(args []string) int {
 			"Without a game, shows the menu (type 'help' there).\n\n"+
 			"Games:\n"+
 			"  whodunit [rounds] [--rounds N] [--players a,b,c] [--solo]\n"+
-			"  graveyard [visit <name> | list [text] | killers]\n\n"+
+			"  graveyard [visit <name> | list [text] | killers]\n"+
+			"  aquarium [--fetch]\n\n"+
 			"Flags:\n")
 		flags.PrintDefaults()
 	}

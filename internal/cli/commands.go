@@ -23,7 +23,7 @@ type game struct {
 var games = []game{
 	{name: "whodunit", desc: "guess who wrote the code", run: (*App).whodunit},
 	{name: "graveyard", desc: "visit the code that died", run: (*App).graveyard},
-	{name: "aquarium", desc: "your team swimming in real time", later: "🐟 The aquarium is still being filled."},
+	{name: "aquarium", desc: "your team swimming in real time", run: (*App).aquarium},
 	{name: "mascot", desc: "your repo's tamagotchi", later: "🥚 The mascot hasn't hatched yet."},
 }
 
@@ -52,6 +52,8 @@ func (a *App) help() {
 		{"  visit <name>", "one grave up close, its last lines and how to bring it back"},
 		{"  list [text]", "every grave (or the ones whose path has text)"},
 		{"  killers", "who deleted the most"},
+		{"3 / aquarium", "your team as fish, live, full screen (q to leave)"},
+		{"  --fetch", "fetch every minute to see the team's pushes arrive"},
 		{"menu", "clear the screen and show the games again"},
 		{"help", "this list"},
 		{"quit", "leave (or Ctrl+D / Ctrl+Z)"},

@@ -37,7 +37,7 @@ gh recess whodunit 5 --players tomas,andre,joao
 |---|---|---|
 | `whodunit` | Guess who wrote a piece of code, a commit message, or (hardcore) a commit from clues only | ✅ |
 | `graveyard` | Tombstones for deleted code: who wrote it, who killed it, how long it lived | ✅ |
-| `aquarium` | Your team as fish swimming in the terminal, growing with every commit | soon |
+| `aquarium` | Your team as fish swimming in the terminal, growing with every commit | ✅ |
 | `mascot` | A tamagotchi that lives on commits and gets sick from stale PRs | soon |
 
 ### whodunit
@@ -86,6 +86,39 @@ Every file ever deleted gets a tombstone, drawn in ASCII on a strip of lawn.
 
 `gh recess graveyard <name>` works as a shortcut for `visit`.
 
+### aquarium
+
+Your team as fish, live and full screen. Press `q` to come back up.
+
+```
+~~-~^~-~~^-~~-~^~-~~^-~~-~^~-~~^-~~-~^~-~~^-~~-~^~-~~^-~~
+                  o                    /\
+       |\         .                ___/  \ /
+     <°  )><                      <°  ))  (
+       |/                          \___  / \
+      André          ><>               \/
+                     João       tomassilva68725
+    )          (           )                  (
+    (          )           (                  )
+░░░.░░░░░:░░░░░░░░░.░░░░░░░░░░░:░░░░░░░░.░░░░░░░░░░░░░░░░
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+```
+
+- **Fish grow** with their owner's commits from the last 14 days:
+  fry `><>`, small, big and whale-sized.
+- **Sleeping fish** (no commits for 3 days) rest on the sand, snoring `z`.
+  Lively ones (a commit in the last 24 hours) swim faster and blow bubbles.
+- **Every branch counts**, local and remote-tracking, so each person's work
+  shows up before it's merged.
+- **Live**: new commits are picked up every few seconds. The author's fish
+  wakes up, glows, blows a stream of bubbles, and the commit message appears
+  at the bottom. Someone new gets a new fish.
+- `aquarium --fetch` also fetches every minute, so you see your teammates'
+  pushes arrive. It never asks for a password: if it can't fetch, it says so.
+
+Leaving prints the legend: who's who, how big, and who's asleep. When the
+output isn't a terminal, you get a still picture and the legend instead.
+
 To merge one person's several emails into one suspect, add a
 [`.mailmap`](https://git-scm.com/docs/gitmailmap).
 
@@ -99,6 +132,7 @@ internal/gitlog/    runs git log / git show and parses the output (commits, file
 internal/render/    colors, the big block font, bars, spinners
 internal/whodunit/  questions (deck), snippets, scoring, the game loop
 internal/graveyard/ lives and deaths of files, records, tombstones
+internal/aquarium/  fish, bubbles and seaweed, the canvas, the live loop
 internal/cli/       banner, game menu, prompt, command-line options
 ```
 
